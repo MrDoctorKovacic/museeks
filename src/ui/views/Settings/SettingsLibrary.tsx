@@ -65,6 +65,17 @@ export default class SettingsLibrary extends React.Component<Props> {
           </Setting.Description>
         </Setting.Section>
         <Setting.Section>
+          <h3 style={{ marginTop: 0 }}>
+            Export playlists
+          </h3>
+          <Button
+            title='Export all playlists'
+            onClick={LibraryActions.exportPlaylists}
+          >
+            Export all playlists
+          </Button>
+        </Setting.Section>
+        <Setting.Section>
           <h3>Danger zone</h3>
           <Button
             relevancy='danger'
