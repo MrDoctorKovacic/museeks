@@ -18,7 +18,8 @@ export enum SortBy {
   ALBUM = 'album',
   TITLE = 'title',
   DURATION = 'duration',
-  GENRE = 'genre'
+  GENRE = 'genre',
+  DATE_ADDED = 'date added'
 }
 
 export enum SortOrder {
@@ -88,6 +89,7 @@ export interface Track {
     of: number;
   };
   year: number | null;
+  dateAdded: Date | null;
 }
 
 export interface Playlist {

@@ -228,7 +228,6 @@ export const exportToM3u = async (playlistId: string) => {
   const { filePath } = await dialog.showSaveDialog(app.browserWindows.main, {
     title: 'Export playlist',
     defaultPath: path.resolve(electron.remote.app.getPath('music'), playlist.name),
-<<<<<<< HEAD
     filters: [
       {
         extensions: ['m3u'],
@@ -256,20 +255,6 @@ export const exportToM3u = async (playlistId: string) => {
     } catch (err) {
       ToastsActions.add('danger', `An error occured when exporting the playlist "${playlist.name}"`);
       console.warn(err);
-=======
-    filters: [{
-      extensions: ['m3u'],
-      name: playlistId
-    }]
-  }, (fileName) => {
-    if (fileName) {
-      try {
-        writePlaylistFile(fileName, tracks).catch((err) => console.warn(err));
-      } catch (err) {
-        ToastsActions.add('danger', `An error occured when exporting the playlist "${playlist.name}"`);
-        console.warn(err);
-      }
->>>>>>> Adding mass-export of playlists in settings
     }
   }
 };

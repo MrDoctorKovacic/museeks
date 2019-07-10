@@ -124,7 +124,8 @@ export const getDefaultMetadata = (): Track => ({
     no: 0,
     of: 0
   },
-  year: null
+  year: null,
+  dateAdded: null
 });
 
 export const parseMusicMetadata = (data: mmd.IAudioMetadata, trackPath: string): Partial<Track> => {
@@ -211,6 +212,8 @@ export const getMetadata = async (trackPath: string): Promise<Track> => {
         console.warn(`An error occured while getting ${trackPath} duration: ${err}`);
       }
     }
+
+    metadata.dateAdded = new Date();
 
     return metadata;
   } catch (err) {
