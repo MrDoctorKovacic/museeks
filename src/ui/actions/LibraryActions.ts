@@ -10,11 +10,13 @@ import store from '../store';
 import types from '../constants/action-types';
 import * as ToastsActions from './ToastsActions';
 import * as PlaylistsActions from './PlaylistsActions';
+import * as NotificationsActions from './NotificationsActions';
+import museeks from '../../images/logos/museeks.png';
 
 import * as app from '../lib/app';
 import * as utils from '../utils/utils';
 import * as m3u from '../utils/utils-m3u';
-import { SortBy, TrackModel } from '../../shared/types/interfaces';
+import { SortBy, TrackModel, PlaylistModel } from '../../shared/types/interfaces';
 import { SUPPORTED_PLAYLISTS_EXTENSIONS, SUPPORTED_TRACKS_EXTENSIONS } from '../../shared/constants';
 
 const { dialog } = electron.remote;
@@ -325,4 +327,51 @@ export const incrementPlayCount = async (source: string) => {
   } catch (err) {
     console.warn(err);
   }
+};
+
+/**
+ * Export all Library Playlists to M3u
+ * TODO: Check or warn for file overwrites?
+ */
+export const exportPlaylists = async () => {
+  // Mostly stolen from PlaylistActions.exportToM3u, both invoke the same core export function
+  dialog.showOpenDialog({
+    title: 'Export all playlists',
+    defaultPath: path.resolve(electron.remote.app.getPath('music')),
+    properties: ['openDirectory']
+  }, (fileName) => {
+    if (fileName) {
+      app.models.Playlist.find({}, async (err: Error, playlists: PlaylistModel[]) => {
+        if (!err) {
+          if (playlists.length > 0) {
+            // Tested on 100+ playlists, this operation takes a while.
+            // TODO: Halt UI using a spinner/modal to prevent playlist edits when exporting
+            ToastsActions.add('success', `Exporting all playlists. This may take a while...`);
+
+            // For each library playlist, export using resolved filename
+            await Promise.all(playlists.map(async (playlist) => {
+              const tracks: TrackModel[] = await app.models.Track.findAsync({ _id: { $in: playlist.tracks } });
+              PlaylistsActions.writePlaylistFile(path.resolve(...fileName, `${playlist.name}.m3u`).toString(), tracks).catch((err) => console.warn(err));
+            }));
+
+            // When all playlists have been exported
+            // Toast complete. Ideally we can load some spinner inbetween / in place of toasts
+            ToastsActions.add('success', `${playlists.length} playlists have been successfully exported.`);
+
+            // Send OS notification as well
+            NotificationsActions.add('Export Complete', {
+              body: `${playlists.length} playlists have been successfully exported`,
+              icon: museeks || ''
+            });
+          } else {
+            ToastsActions.add('danger', `No playlists found to export`);
+            console.warn(`No playlists found to export`);
+          }
+        } else {
+          ToastsActions.add('danger', `An error occured when exporting the playlists`);
+          console.warn(err);
+        }
+      });
+    }
+  });
 };

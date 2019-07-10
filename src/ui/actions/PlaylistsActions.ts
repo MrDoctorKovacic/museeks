@@ -188,6 +188,24 @@ export const reorderTracks = async (
 /**
  * Export a playlist to a .m3u file
  */
+export const writePlaylistFile = async (fileName: string, tracks: TrackModel[]) => {
+  const playlist = new m3u.Playlist(new m3u.TypeEXTM3U(entry => {
+    if (entry instanceof m3u.Mp3Entry) {
+      return `${entry.artist} - ${entry.album} - ${entry.track} - ${entry.title}`;
+    }
+    return entry.displayName;
+  }));
+
+  tracks.forEach(track => {
+    playlist.add(new m3u.Mp3Entry(track.path));
+  });
+
+  playlist.write(fileName);
+};
+
+/**
+ * Prompt user to save individual playlist to file
+ */
 export const exportToM3u = async (playlistId: string) => {
   const playlist: PlaylistModel = await app.models.Playlist.findOneAsync({ _id: playlistId });
   const tracks: TrackModel[] = await app.models.Track.findAsync({ _id: { $in: playlist.tracks } });
@@ -202,18 +220,7 @@ export const exportToM3u = async (playlistId: string) => {
   }, (fileName) => {
     if (fileName) {
       try {
-        const playlist = new m3u.Playlist(new m3u.TypeEXTM3U(entry => {
-          if (entry instanceof m3u.Mp3Entry) {
-            return `${entry.artist} - ${entry.album} - ${entry.track} - ${entry.title}`;
-          }
-          return entry.displayName;
-        }));
-
-        tracks.forEach(track => {
-          playlist.add(new m3u.Mp3Entry(track.path));
-        });
-
-        playlist.write(fileName);
+        writePlaylistFile(fileName, tracks).catch((err) => console.warn(err));
       } catch (err) {
         ToastsActions.add('danger', `An error occured when exporting the playlist "${playlist.name}"`);
         console.warn(err);
