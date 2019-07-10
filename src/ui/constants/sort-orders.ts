@@ -122,6 +122,30 @@ const sortOrders = {
       ],
       ['desc']
     ]
+  },
+  [SortBy.DATE_ADDED]: {
+    [SortOrder.ASC]: [
+      [
+        parseGenre,
+        parseArtist,
+        'year',
+        'loweredMetas.album',
+        'disk.no',
+        'track.no'
+      ],
+      null
+    ],
+    [SortOrder.DSC]: [
+      [
+        parseGenre,
+        parseArtist,
+        'year',
+        'loweredMetas.album',
+        'disk.no',
+        'track.no'
+      ],
+      ['desc']
+    ]
   }
 };
 
