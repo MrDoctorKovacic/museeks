@@ -19,7 +19,8 @@ export enum SortBy {
   TITLE = 'title',
   DURATION = 'duration',
   GENRE = 'genre',
-  DATE_ADDED = 'date added'
+  DATE_ADDED = 'date added',
+  FILESIZE = 'filesize'
 }
 
 export enum SortOrder {
@@ -90,6 +91,7 @@ export interface Track {
   };
   year: number | null;
   dateAdded: Date | null;
+  filesize: number | null; // in MB
 }
 
 export interface Playlist {

@@ -139,11 +139,24 @@ export default class TrackRow extends React.PureComponent<Props, State> {
         <div className={`${styles.cell} ${cellStyles.cellTrackPlaying}`}>
           {this.props.isPlaying ? <PlayingIndicator /> : null}
         </div>
-        <div className={`${styles.cell} ${cellStyles.cellTrack}`}>{track.title}</div>
-        <div className={`${styles.cell} ${cellStyles.cellDuration}`}>{parseDuration(track.duration)}</div>
-        <div className={`${styles.cell} ${cellStyles.cellArtist}`}>{track.artist[0]}</div>
-        <div className={`${styles.cell} ${cellStyles.cellAlbum}`}>{track.album}</div>
-        <div className={`${styles.cell} ${cellStyles.cellGenre}`}>{track.genre.join(', ')}</div>
+        <div className={`${styles.cell} ${cellStyles.cellTrack}`}>
+          { track.title }
+        </div>
+        <div className={`${styles.cell} ${cellStyles.cellDuration}`}>
+          { parseDuration(track.duration) }
+        </div>
+        <div className={`${styles.cell} ${cellStyles.cellArtist}`}>
+          { track.artist[0] }
+        </div>
+        <div className={`${styles.cell} ${cellStyles.cellAlbum}`}>
+          { track.album }
+        </div>
+        <div className={`${styles.cell} ${cellStyles.cellDuration}`}>
+          { track.filesize ? track.filesize.toString() + ' MB' : '-' }
+        </div>
+        <div className={`${styles.cell} ${cellStyles.cellDateAdded}`}>
+          { track.dateAdded ? track.dateAdded.toLocaleString() : 'Unknown' }
+        </div>
       </div>
     );
   }

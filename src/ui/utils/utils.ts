@@ -79,6 +79,15 @@ export const stripAccents = (str: string): string => {
   return str.replace(reg, replacement).toLowerCase();
 };
 
+export const roundNumber = (num: number, scale: number): number => {
+  let arr = ('' + num).split('e');
+  let sig = '';
+  if (+arr[1] + scale > 0) {
+    sig = '+';
+  }
+  return +(Math.round(parseFloat(+arr[0] + 'e' + sig + (+arr[1] + scale))) + 'e-' + scale);
+}
+
 /**
  * Remove duplicates (realpath) and useless children folders
  */
@@ -125,7 +134,8 @@ export const getDefaultMetadata = (): Track => ({
     of: 0
   },
   year: null,
-  dateAdded: null
+  dateAdded: null,
+  filesize: null
 });
 
 export const parseMusicMetadata = (data: mmd.IAudioMetadata, trackPath: string): Partial<Track> => {
@@ -214,6 +224,7 @@ export const getMetadata = async (trackPath: string): Promise<Track> => {
     }
 
     metadata.dateAdded = new Date();
+    metadata.filesize = Math.round(stats.size / 1000000.0);
 
     return metadata;
   } catch (err) {
