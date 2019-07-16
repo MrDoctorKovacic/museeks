@@ -65,12 +65,18 @@ class TracksListHeader extends React.Component<Props> {
         />
         <TracksListHeaderCell
           className={styles.cellDuration}
+          title='Quality'
+          sortBy={enableSort ? SortBy.QUALITY : null}
+          icon={TracksListHeader.getIcon(sort, SortBy.QUALITY)}
+        />
+        <TracksListHeaderCell
+          className={styles.cellDuration}
           title='Filesize'
           sortBy={enableSort ? SortBy.FILESIZE : null}
           icon={TracksListHeader.getIcon(sort, SortBy.FILESIZE)}
         />
         <TracksListHeaderCell
-          className={styles.cellGenre}
+          className={styles.cellDate}
           title='Date Added'
           sortBy={enableSort ? SortBy.DATE_ADDED : null}
           icon={TracksListHeader.getIcon(sort, SortBy.DATE_ADDED)}
