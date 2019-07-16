@@ -4,6 +4,7 @@ import { Track, SortOrder, SortBy } from '../../shared/types/interfaces';
 // the is far more resource/time impactful
 const parseArtist = (t: Track): string => t.loweredMetas.artist.toString();
 const parseGenre = (t: Track): string => t.loweredMetas.genre.toString();
+const parseDateAdded = (t: Track): string => t.dateAdded ? t.dateAdded.getTime().toString() : '0';
 
 // Declarations
 const sortOrders = {
@@ -113,7 +114,55 @@ const sortOrders = {
     ],
     [SortOrder.DSC]: [
       [
-        parseGenre,
+        parseDateAdded,
+        parseArtist,
+        'year',
+        'loweredMetas.album',
+        'disk.no',
+        'track.no'
+      ],
+      ['desc']
+    ]
+  },
+  [SortBy.DATE_ADDED]: {
+    [SortOrder.ASC]: [
+      [
+        parseDateAdded,
+        parseArtist,
+        'year',
+        'loweredMetas.album',
+        'disk.no',
+        'track.no'
+      ],
+      null
+    ],
+    [SortOrder.DSC]: [
+      [
+        parseDateAdded,
+        parseArtist,
+        'year',
+        'loweredMetas.album',
+        'disk.no',
+        'track.no'
+      ],
+      ['desc']
+    ]
+  },
+  [SortBy.FILESIZE]: {
+    [SortOrder.ASC]: [
+      [
+        'filesize',
+        parseArtist,
+        'year',
+        'loweredMetas.album',
+        'disk.no',
+        'track.no'
+      ],
+      null
+    ],
+    [SortOrder.DSC]: [
+      [
+        'filesize',
         parseArtist,
         'year',
         'loweredMetas.album',
