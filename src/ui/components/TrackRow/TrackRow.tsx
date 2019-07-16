@@ -147,8 +147,11 @@ export default class TrackRow extends React.PureComponent<Props, State> {
         <div className={`${styles.cell} ${cellStyles.cellAlbum}`}>
           { track.album }
         </div>
-        <div className={`${styles.cell} ${cellStyles.cellGenre}`}>
-          { track.genre.join(', ') }
+        <div className={`${styles.cell} ${cellStyles.cellDuration}`}>
+          { track.filesize ? track.filesize.toString() + ' MB' : '-' }
+        </div>
+        <div className={`${styles.cell} ${cellStyles.cellDateAdded}`}>
+          { track.dateAdded ? track.dateAdded.toLocaleString() : 'Unknown' }
         </div>
       </div>
     );
