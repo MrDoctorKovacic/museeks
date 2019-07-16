@@ -134,7 +134,8 @@ export const getDefaultMetadata = (): Track => ({
   },
   year: null,
   dateAdded: null,
-  filesize: null
+  filesize: null,
+  quality: null
 });
 
 export const parseMusicMetadata = (data: mmd.IAudioMetadata, trackPath: string): Partial<Track> => {
@@ -148,7 +149,8 @@ export const parseMusicMetadata = (data: mmd.IAudioMetadata, trackPath: string):
     genre: common.genre,
     title: common.title || path.parse(trackPath).base,
     track: common.track,
-    year: common.year
+    year: common.year,
+    quality: format.bitrate ? Math.round(format.bitrate / 1000.0) : format.bitrate
   };
 
   // @ts-ignore

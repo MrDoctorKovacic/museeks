@@ -148,6 +148,9 @@ export default class TrackRow extends React.PureComponent<Props, State> {
           { track.album }
         </div>
         <div className={`${styles.cell} ${cellStyles.cellDuration}`}>
+          { track.quality ? track.quality.toString() + 'kbps' : '-' }
+        </div>
+        <div className={`${styles.cell} ${cellStyles.cellDuration}`}>
           { track.filesize ? track.filesize.toString() + ' MB' : '-' }
         </div>
         <div className={`${styles.cell} ${cellStyles.cellDateAdded}`}>
