@@ -189,6 +189,78 @@ const sortOrders = {
     ],
     [SortOrder.DSC]: [
       [
+        parseDateAdded,
+        parseArtist,
+        'year',
+        'loweredMetas.album',
+        'disk.no',
+        'track.no'
+      ],
+      ['desc']
+    ]
+  },
+  [SortBy.DATE_ADDED]: {
+    [SortOrder.ASC]: [
+      [
+        parseDateAdded,
+        parseArtist,
+        'year',
+        'loweredMetas.album',
+        'disk.no',
+        'track.no'
+      ],
+      null
+    ],
+    [SortOrder.DSC]: [
+      [
+        parseDateAdded,
+        parseArtist,
+        'year',
+        'loweredMetas.album',
+        'disk.no',
+        'track.no'
+      ],
+      ['desc']
+    ]
+  },
+  [SortBy.FILESIZE]: {
+    [SortOrder.ASC]: [
+      [
+        'filesize',
+        parseArtist,
+        'year',
+        'loweredMetas.album',
+        'disk.no',
+        'track.no'
+      ],
+      null
+    ],
+    [SortOrder.DSC]: [
+      [
+        'filesize',
+        parseArtist,
+        'year',
+        'loweredMetas.album',
+        'disk.no',
+        'track.no'
+      ],
+      ['desc']
+    ]
+  },
+  [SortBy.QUALITY]: {
+    [SortOrder.ASC]: [
+      [
+        'quality',
+        parseArtist,
+        'year',
+        'loweredMetas.album',
+        'disk.no',
+        'track.no'
+      ],
+      null
+    ],
+    [SortOrder.DSC]: [
+      [
         'quality',
         parseArtist,
         'year',
