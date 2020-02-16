@@ -16,6 +16,8 @@ import { SortBy, TrackModel, PlaylistModel } from '../../shared/types/interfaces
 import { SUPPORTED_PLAYLISTS_EXTENSIONS, SUPPORTED_TRACKS_EXTENSIONS } from '../../shared/constants';
 import * as PlaylistsActions from './PlaylistsActions';
 import * as ToastsActions from './ToastsActions';
+import * as NotificationsActions from './NotificationsActions';
+import museeks from '../../images/logos/museeks.png';
 
 const { dialog } = electron.remote;
 const stat = util.promisify(fs.stat);
