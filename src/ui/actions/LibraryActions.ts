@@ -325,7 +325,7 @@ export const incrementPlayCount = async (source: string) => {
  * Export all Library Playlists to M3u
  * TODO: Check or warn for file overwrites?
  */
-export const exportPlaylists = async () => {
+export const exportAllPlaylists = async () => {
   // Mostly stolen from PlaylistActions.exportToM3u, both invoke the same core export function
   dialog.showOpenDialog({
     title: 'Export all playlists',

@@ -66,11 +66,11 @@ export default class SettingsLibrary extends React.Component<Props> {
         </Setting.Section>
         <Setting.Section>
           <h3 style={{ marginTop: 0 }}>
-            Export playlists
+            Export music
           </h3>
           <Button
             title='Export all playlists'
-            onClick={LibraryActions.exportPlaylists}
+            onClick={LibraryActions.exportAllPlaylists}
           >
             Export all playlists
           </Button>
