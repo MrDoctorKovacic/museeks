@@ -131,7 +131,6 @@ export const getDefaultMetadata = (): Track => ({
   },
   year: null,
   dateAdded: null,
-  filesize: null,
   quality: null
 });
 
@@ -219,7 +218,6 @@ export const getMetadata = async (trackPath: string): Promise<Track> => {
     }
 
     metadata.dateAdded = new Date();
-    metadata.filesize = Math.round(stats.size / 1000000.0);
 
     return metadata;
   } catch (err) {

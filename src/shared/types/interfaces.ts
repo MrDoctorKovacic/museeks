@@ -20,7 +20,6 @@ export enum SortBy {
   DURATION = 'duration',
   GENRE = 'genre',
   DATE_ADDED = 'date added',
-  FILESIZE = 'filesize',
   QUALITY = 'quality'
 }
 
@@ -92,7 +91,6 @@ export interface Track {
   };
   year: number | null;
   dateAdded: Date | null;
-  filesize: number | null; // in MB
   quality: number | null;
 }
 
