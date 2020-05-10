@@ -1,8 +1,8 @@
 # Museeks
 
-[![Build Status](https://img.shields.io/circleci/project/github/martpie/museeks.svg)](https://circleci.com/gh/martpie/museeks)
-[![Dependencies](https://david-dm.org/martpie/museeks.svg)](https://github.com/martpie/museeks)
-![Github All Releases](https://img.shields.io/github/downloads/martpie/museeks/total.svg)
+![Build Status](https://github.com/martpie/museeks/workflows/build/badge.svg)
+![Dependencies](https://david-dm.org/martpie/museeks.svg)
+![Github All Releases](https://img.shields.io/github/downloads/martpie/museeks/total)
 
 A simple, clean and cross-platform music player. ([museeks.io](http://museeks.io))
 
@@ -55,7 +55,7 @@ Please consider that **`master` is unstable**.
 - `git clone git@github.com:martpie/museeks.git`
 - `cd museeks`
 - `npm ci`
-- `npm modules:rebuild`
+- `npm run modules:rebuild`
 - `npm run build` or `npm run dev`
 - `npm run museeks` or `npm run museeks:debug`
 
@@ -63,8 +63,8 @@ Please consider that **`master` is unstable**.
 
 - `rm -rf node_modules dist build`
 - `npm ci`
-- `npm modules:rebuild`
-- `npm build`
+- `npm run modules:rebuild`
+- `npm run build`
 - `npm run package:lmw`
 
 ## Troubleshooting

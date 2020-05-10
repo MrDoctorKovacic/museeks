@@ -80,7 +80,11 @@ const scanPlaylists = async (paths: string[]) => {
           $or: playlistFiles.map((filePath) => ({ path: filePath }))
         });
 
-        await PlaylistsActions.create(playlistName, existingTracks.map((track) => track._id), filePath);
+        await PlaylistsActions.create(
+          playlistName,
+          existingTracks.map((track) => track._id),
+          filePath
+        );
       } catch (err) {
         console.warn(err);
       }
@@ -116,7 +120,7 @@ const scanTracks = async (paths: string[]): Promise<void> => {
       });
 
       scanQueue.on('success', () => {
-        // Every 10 scans, update progress bar
+        // Every 100 scans, update progress bar
         if (scan.processed % 100 === 0) {
           // Progress bar update
           store.dispatch({
@@ -147,6 +151,9 @@ const scanTracks = async (paths: string[]): Promise<void> => {
       paths.forEach((filePath) => {
         scanQueue.push(async (callback: Function) => {
           try {
+            // Normalize (back)slashes on Windows
+            filePath = path.resolve(filePath);
+
             // Check if there is an existing record in the DB
             const existingDoc = await app.models.Track.findOneAsync({ path: filePath });
 
@@ -200,7 +207,10 @@ export const add = async (pathsToScan: string[]) => {
 
     // 3. Scan all the directories with globby
     const globbies = folders.map((folder) => {
-      const pattern = path.join(folder, '**/*.*');
+      // Normalize slashes and escape regex special characters
+      const pattern = `${folder.replace(/\\/g, '/').replace(/([$^*+?()\[\]])/g, '\\$1')}/**/*.*`;
+
+      console.log(pattern);
       return globby(pattern, { followSymbolicLinks: true });
     });
 
