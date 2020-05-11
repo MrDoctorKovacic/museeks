@@ -337,43 +337,43 @@ export const incrementPlayCount = async (source: string) => {
  */
 export const exportAllPlaylists = async () => {
   // Mostly stolen from PlaylistActions.exportToM3u, both invoke the same core export function
-  dialog.showOpenDialog({
+  const result = await dialog.showOpenDialog({
+    properties: ['openDirectory'],
     title: 'Export all playlists',
     defaultPath: path.resolve(electron.remote.app.getPath('music')),
-    properties: ['openDirectory']
-  }, (fileName) => {
-    if (fileName) {
-      app.models.Playlist.find({}, async (err: Error, playlists: PlaylistModel[]) => {
-        if (!err) {
-          if (playlists.length > 0) {
-            // Tested on 100+ playlists, this operation takes a while.
-            // TODO: Halt UI using a spinner/modal to prevent playlist edits when exporting
-            ToastsActions.add('success', `Exporting all playlists. This may take a while...`);
-
-            // For each library playlist, export using resolved filename
-            await Promise.all(playlists.map(async (playlist) => {
-              const tracks: TrackModel[] = await app.models.Track.findAsync({ _id: { $in: playlist.tracks } });
-              PlaylistsActions.writePlaylistFile(path.resolve(...fileName, `${playlist.name}.m3u`).toString(), tracks).catch((err) => console.warn(err));
-            }));
-
-            // When all playlists have been exported
-            // Toast complete. Ideally we can load some spinner inbetween / in place of toasts
-            ToastsActions.add('success', `${playlists.length} playlists have been successfully exported.`);
-
-            // Send OS notification as well
-            NotificationsActions.add('Export Complete', {
-              body: `${playlists.length} playlists have been successfully exported`,
-              icon: museeks || ''
-            });
-          } else {
-            ToastsActions.add('danger', `No playlists found to export`);
-            console.warn(`No playlists found to export`);
-          }
-        } else {
-          ToastsActions.add('danger', `An error occured when exporting the playlists`);
-          console.warn(err);
-        }
-      });
-    }
   });
+
+  if (result.filePaths) {
+    app.models.Playlist.find({}, async (err: Error, playlists: PlaylistModel[]) => {
+      if (!err) {
+        if (playlists.length > 0) {
+          // Tested on 100+ playlists, this operation takes a while.
+          // TODO: Halt UI using a spinner/modal to prevent playlist edits when exporting
+          ToastsActions.add('success', `Exporting all playlists. This may take a while...`);
+
+          // For each library playlist, export using resolved filename
+          await Promise.all(playlists.map(async (playlist) => {
+            const tracks: TrackModel[] = await app.models.Track.findAsync({ _id: { $in: playlist.tracks } });
+            PlaylistsActions.writePlaylistFile(path.resolve(...result.filePaths, `${playlist.name}.m3u`).toString(), tracks).catch((err) => console.warn(err));
+          }));
+
+          // When all playlists have been exported
+          // Toast complete. Ideally we can load some spinner inbetween / in place of toasts
+          ToastsActions.add('success', `${playlists.length} playlists have been successfully exported.`);
+
+          // Send OS notification as well
+          NotificationsActions.add('Export Complete', {
+            body: `${playlists.length} playlists have been successfully exported`,
+            icon: museeks || ''
+          });
+        } else {
+          ToastsActions.add('danger', `No playlists found to export`);
+          console.warn(`No playlists found to export`);
+        }
+      } else {
+        ToastsActions.add('danger', `An error occured when exporting the playlists`);
+        console.warn(err);
+      }
+    });
+  }
 };
